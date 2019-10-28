@@ -1,0 +1,41 @@
+.item-list .ivu-poptip-rel {
+	display: unset;
+}
+
+.account-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.account-content::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #b1b1b1;
+}
+
+.activities-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.activities-content::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #b1b1b1;
+}
+
+.filter .ivu-select {
+	width: unset;
+}
+
+.statistic-content .ivu-poptip-rel {
+  display: unset;
+}
+
+.statistic-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.statistic-content::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #b1b1b1;
+}

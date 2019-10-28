@@ -1,0 +1,44 @@
+.ivu-form-item-content {
+	margin-left: 0!important;
+}
+
+.ivu-form-item-label {
+	text-align: left!important;
+}
+
+.fast-filter .ivu-collapse-item {
+  border: none!important;
+}
+
+.fast-filter .ivu-collapse-header {
+  border-bottom: none!important;
+}
+
+.fast-filter .ivu-collapse-content {
+  background: #EFF3F6;
+}
+
+.fast-filter .ivu-collapse-header .ivu-icon {
+  line-height: inherit;
+}
+
+.fast-filter .ivu-badge-status-dot {
+    width: 8px;
+    height: 8px;
+}
+
+.fast-filter .ivu-badge-status-default {
+  background-color: #cbced2;
+}
+
+.fast-filter .ivu-badge-status-processing:after {
+  animation: unset;
+}
+
+.detail-filter .ivu-cascader-menu {
+  height: 200px!important;
+}
+
+.main-list .ivu-spin-fix {
+  background: unset;
+}
