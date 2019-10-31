@@ -58,6 +58,8 @@ class Record(object):
             for each in rsp["aggregations"]["logon_ips"]["buckets"]:
                 if each["key"] == "-" or each["key"] == "::1":
                     continue
+                if each["key"] == "::ffff:127.0.0.1":
+                    continue
                 result.append(each["key"].replace("::ffff:", ""))
             return result
         else:

@@ -4,7 +4,7 @@
 
 class ElasticConfig(object):
     host = "127.0.0.1:9200"
-    uri = "http://{host}/".format(password=password)
+    uri = "http://{host}/".format(host=host)
 
     # -----------下方名称默认即可-------------
     event_log_index = "dc_log_all"
