@@ -107,7 +107,7 @@ export default {
             if (!["user", "group", "computer"].includes(this.choose_entry)) {
                 return
             }
-            window.open("/entry.html/#/" + this.choose_entry + "/" + this.domain + "/" + this.value);
+            window.open("/entry.html#/" + this.choose_entry + "/" + this.domain + "/" + this.value);
         }
     },
     created() {
