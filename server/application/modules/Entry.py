@@ -316,11 +316,16 @@ class Entry(object):
 
     def _multi_entry_data(self, entry_list) -> list:
         result = []
-        condition = ""
+        if len(entry_list) == 0:
+            return result
+        condition = []
         for entry in entry_list:
             cn = get_cn_from_dn(entry)
-            condition += "(CN={cn})".format(cn=cn)
-        condition = "(|{cond})".format(cond=condition)
+            condition.append("(CN={cn})".format(cn=cn))
+        if len(condition) >= 2:
+            condition = "(|{cond})".format(cond="".join(condition))
+        else:
+            condition = condition[0]
         entries = self.ldap.search_by_custom(condition, attributes=["department", "displayName", "mail", "manager",
                                                                     "title", "whenCreated", "sAMAccountName", "objectSid",
                                                                     "description", "employeeNumber", "cn", "adminCount",
