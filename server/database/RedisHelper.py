@@ -7,7 +7,7 @@ from config.database_config import RedisConfig
 
 class RedisHelper(object):
     def __init__(self):
-        pool = redis.ConnectionPool(host=RedisConfig.host, port=RedisConfig.port, password=RedisConfig.password)
+        pool = redis.ConnectionPool(host=RedisConfig.host, port=RedisConfig.port)
         self.db = redis.Redis(connection_pool=pool)
         self.pipe = self.db.pipeline()
 
