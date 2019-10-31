@@ -9,7 +9,7 @@ import random
 from config.config import main_config
 from ldap3 import Server, Connection, ALL, Entry
 from application.common.errors import LDAPSearchFailException
-from application.common.common import get_netbios_domain
+from application.common.common import get_netbios_domain, escape_ldap_filter
 
 
 class LDAPSearch(object):
@@ -28,6 +28,7 @@ class LDAPSearch(object):
         """
             通过SID搜索域用户的相关信息
         """
+        sid = escape_ldap_filter(sid)
         if attributes is None:
             attributes = ['cn']
         self.con.search(self.domain_dn, '(ObjectSID={sid})'.format(sid=sid), attributes=attributes)
@@ -42,6 +43,7 @@ class LDAPSearch(object):
         """
             通过用户名搜索
         """
+        user = escape_ldap_filter(user)
         if attributes is None:
             attributes = ["CN"]
         dn = self.domain_dn

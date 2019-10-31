@@ -294,5 +294,10 @@ def get_domain_from_dn(dn: str) -> str:
     return ".".join(domain_list)
 
 
+def escape_ldap_filter(_str: str) -> str:
+    _str = _str.replace("(", r"\28").replace(")", r"\29").replace("\\", r"\5c").replace("*", r"\2a").replace("/", r"\2f")
+    return _str
+
+
 if __name__ == '__main__':
     print(date_time_to_time(utc_to_datetime("2019-01-15T06:43:42.207Z")))

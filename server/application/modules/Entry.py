@@ -3,7 +3,7 @@
 
 import re
 from impacket.ldap.ldaptypes import SR_SECURITY_DESCRIPTOR
-from application.common.common import datetime_to_utc, get_cn_from_dn, get_netbios_domain, get_domain_from_dn
+from application.common.common import datetime_to_utc, get_cn_from_dn, get_netbios_domain, get_domain_from_dn, escape_ldap_filter
 from application.tools.LDAPSearch import LDAPSearch
 from database.ElsaticHelper import *
 from application.tools.GroupTypeParser import GroupTypeParser
@@ -22,6 +22,7 @@ class Entry(object):
 
     def fuzz_search(self, name, page_size=5, **kwargs) -> list:
         result = []
+        name = escape_ldap_filter(name)
         condition = "(&(cn=*{name}*)(|(objectClass=computer)(objectClass=user)(objectClass=group)))".format(name=name)
         entries = self.ldap.search_by_custom(condition, attributes=["cn", "distinguishedName", "userAccountControl",
                                                                 "objectSid", "adminCount", "memberOf", "objectClass",
@@ -321,6 +322,7 @@ class Entry(object):
         condition = []
         for entry in entry_list:
             cn = get_cn_from_dn(entry)
+            cn = escape_ldap_filter(cn)
             condition.append("(CN={cn})".format(cn=cn))
         if len(condition) >= 2:
             condition = "(|{cond})".format(cond="".join(condition))
@@ -402,6 +404,7 @@ class Entry(object):
             condition = ""
             for user in search_group:
                 cn = get_cn_from_dn(user)
+                cn = escape_ldap_filter(cn)
                 condition += "(cn={cn})".format(cn=cn)
             condition = "(|{cond})".format(cond=condition)
             entries = self.ldap.search_by_custom(condition, attributes=["memberOf"])
