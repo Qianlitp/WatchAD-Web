@@ -61,58 +61,12 @@
 
 ## 安装
 
-### 前端
+### 配置修改
+首先，修改 `{WatchAD-Server}/config/database_config.py`文件中的数据库配置与WatchAD一致。
 
-参考[README](./frontend)，修改测试环境和生产环境的API接口地址。直接build打包之后将静态资源文件放置到nginx等Web服务器即可。
-
-### 后端
-
-首先安装python相关库：
-
+### Docker启动
+编译及运行测试环境：
 ```
-pip3 install -r requirements.txt
-```
-
-修改 `{WatchAD-Server}/config/database_config.py`文件中的数据库配置与WatchAD一致。**接下来使用常规`Flask`项目的部署方式即可。**
-
-如通过 uwsgi + nginx 的方式部署：
-
-可供参考配置文件 `uwsgi.ini`，修改 `{your_project_dir}`：
-
-```
-[uwsgi]
-socket = 127.0.0.1:5003
-chdir = {your_project_dir}
-wsgi-file = manage.py
-callable = app
-master = true
-workers = 5
-reload-mercy = 10
-```
-
-可供参考nginx配置：
-
-```nginx
-server {
-    listen   5000 default_server;
-    listen   [::]:5000 default_server;
-
-    include /etc/nginx/default.d/*.conf;
-
-    location / {
-        include      uwsgi_params;
-        uwsgi_pass   127.0.0.1:5003;
-        uwsgi_param UWSGI_PYHOME /usr/bin/python3; 
-        uwsgi_param UWSGI_CHDIR  {your_project_dir};
-        uwsgi_param UWSGI_SCRIPT manage:app;
-    }
-
-    error_page 404 /404.html;
-        location = /40x.html {
-    }
-
-    error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-    }
-}
+    docker-compose build
+    docker-compose up -d
 ```

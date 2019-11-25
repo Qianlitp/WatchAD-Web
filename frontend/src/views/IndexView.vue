@@ -9,7 +9,7 @@
                 </div>
                 <div class="nav-menu">
                     <div class="nav-left">
-                        <div><a href="/dashborad.html#/">Dashboard</a></div>
+                        <div><a href="/dashboard.html#/">Dashboard</a></div>
                         <div><a href="/activity_timeline.html#/">Threat Activities</a></div>
                         <div><a href="/invasion_timeline.html#/">Invasions</a></div>
                         <!-- <div><a href="/data_search.html#/">Raw Data</a></div> -->
