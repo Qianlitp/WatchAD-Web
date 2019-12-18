@@ -70,3 +70,5 @@
     docker-compose build
     docker-compose up -d
 ```
+
+启动后，访问 `/activity_timeline.html` 进入威胁活动列表页面。
