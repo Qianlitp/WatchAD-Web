@@ -6,7 +6,8 @@
                     v-for="domain in domain_list" 
                     type="dot" 
                     :color="active_color(domain)"
-                    @click.native="change_current_domain(domain)">{{netbios_domain(domain)}}</Tag>
+                    @click.native="change_current_domain(domain)"
+                    style="cursor: pointer;">{{netbios_domain(domain)}}</Tag>
             </div>
             <div>
                 <div class="label">Server</div>
@@ -78,15 +79,29 @@ export default {
             return this.setting["domain_list"];
         },
         format_data() {
-            let domain = this.netbios_domain(this.current_domain)
-            return {
-                domain: {
-                    server: "ldap://" + this.server,
-                    user: this.user_name,
-                    password: this.password,
-                    dn: this.current_dn
+            let result = {};
+            for (let domain of this.domain_list) {
+                let netbios_domain = this.netbios_domain(domain);
+                if (domain == this.current_domain) {
+                    result[netbios_domain] = {
+                        server: "ldap://" + this.server,
+                        user: this.user_name,
+                        password: this.password,
+                        dn: this.current_dn
+                    }
+                } else {
+                    if (!this.ldap.hasOwnProperty(netbios_domain)) {
+                        continue
+                    }
+                    result[netbios_domain] = {
+                        server: this.ldap[netbios_domain]["server"],
+                        user: this.ldap[netbios_domain]["user"],
+                        password: this.ldap[netbios_domain]["password"],
+                        dn: this.ldap[netbios_domain]["dn"]
+                    }
                 }
             }
+            return result;
         },
         current_dn() {
             let temp = [];
