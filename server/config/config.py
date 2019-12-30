@@ -2,30 +2,10 @@
 # coding: utf-8
 
 from datetime import datetime
-import simplejson
 import os
-from database.RedisHelper import RedisHelper
+from database.MongoHelper import MongoHelper
+from config.database_config import MongoConfig
 basedir = os.path.abspath(os.path.dirname(__file__))
-
-
-class _GetConfig(object):
-    def __init__(self):
-        self.redis = RedisHelper()
-
-    def get_str(self, key) -> str:
-        return self.redis.get_str_value(key)
-
-    def get_int(self, key) -> int:
-        return int(self.redis.get_str_value(key))
-
-    def get_dict(self, key) -> dict:
-        return simplejson.loads(self.redis.get_str_value(key))
-
-    def get_list(self, key) -> list:
-        return self.redis.get_all_list(key)
-
-
-config_redis = _GetConfig()
 
 
 def str_to_datetime(utc_str):
@@ -36,53 +16,58 @@ def str_to_datetime(utc_str):
 
 
 class MainConfig(object):
-
     def __init__(self):
-        pass
+        self.db = MongoHelper(MongoConfig.settings_collection)
 
-
-    # 需要分析的FQDN域名称列表
     @property
     def domain_list(self) -> list:
-        return config_redis.get_list("domain_list_setting")
+        return self.db.find_one({
+            "name": "domain_list"
+        })["value"]
 
-    # 域控计算机名列表
     @property
     def dc_name_list(self) -> dict:
-        return config_redis.get_dict("dc_name_list_setting")
+        return self.db.find_one({
+            "name": "dc_name_list"
+        })["value"]
 
     def get_dc_name_list(self, domain=None) -> list:
-        return config_redis.get_dict("dc_name_list_setting")[domain]
+        return self.dc_name_list[domain]
 
+    @property
     def sensitive_entry(self) -> dict:
-        s = config_redis.get_str("sensitive_entry_setting")
-        return simplejson.loads(s)
+        return self.db.find_one({
+            "name": "sensitive_entry"
+        })["value"]
 
     # 敏感计算机列表
     @property
     def sensitive_computers(self) -> list:
-        return self.sensitive_entry()["computer"]
+        return self.sensitive_entry["computer"]
 
     # 敏感的用户组
     @property
     def sensitive_groups(self) -> list:
-        return self.sensitive_entry()["group"]
+        return self.sensitive_entry["group"]
 
     # 敏感的用户列表
     @property
     def sensitive_users(self) -> list:
-        return self.sensitive_entry()["user"]
+        return self.sensitive_entry["user"]
 
     # 蜜罐用户列表
     @property
     def honeypot_user(self) -> list:
-        user_list = config_redis.get_list("honeypot_user_setting")
-        return list(map(lambda x: simplejson.loads(x), user_list))
+        return self.db.find_one({
+            "name": "honeypot_account"
+        })["value"]
 
     # ldap 查询需要的账号信息
     @property
     def ldap_account(self) -> dict:
-        return config_redis.get_dict("ldap_setting")
+        return self.db.find_one({
+            "name": "ldap"
+        })["value"]
 
 
 main_config = MainConfig()
