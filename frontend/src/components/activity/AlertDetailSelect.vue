@@ -1,6 +1,8 @@
 <script>
 import {mapState} from 'vuex';
 import ACLModify from '@/components/alert_detail/401_acl_modify';
+import ExceptionalKrbReq from '@/components/alert_detail/306_exceptional_krb_req';
+import GoldenTicket from '@/components/alert_detail/511_golden_ticket';
 import CommonDetail from '../alert_detail/CommonDetail';
 export default {
 	name: "alert-detail-select",
@@ -72,7 +74,9 @@ export default {
     },
     render: function (createElement) {
         let detail_map = {
-            "401": ACLModify
+            "306": ExceptionalKrbReq,
+            "401": ACLModify,
+            "511": GoldenTicket
         };
 
         if (this.alert_code in detail_map) {

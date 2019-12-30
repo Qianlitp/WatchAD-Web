@@ -8,7 +8,8 @@
             <alert-detail-select></alert-detail-select>
         </div>
         <div>
-            <raw-log-list :log_list="raw_log_list"></raw-log-list>
+            <raw-log-list v-if="detect_by == 'event_log'" :log_list="raw_log_list"></raw-log-list>
+            <raw-krb-taffic-list v-else-if="detect_by == 'krb_traffic'" :krb_list="raw_krb_list"></raw-krb-taffic-list>
         </div>
         <div>
             <recommendation></recommendation>
@@ -24,6 +25,7 @@ import ActivityItem from '@/components/activity_timeline/ActivityItem';
 import FlowGraph from '@/components/activity/FlowGraph';
 import AlertDetailSelect from '@/components/activity/AlertDetailSelect';
 import RawLogList from '@/components/activity/RawLogList';
+import RawKrbTafficList from '@/components/activity/RawKrbTafficList'
 import Recommendation from '@/components/activity/Recommendation';
 import MistakeConfirm from '@/components/actions/MistakeConfirm';
 import IgnoreConfirm from '@/components/actions/IgnoreConfirm';
@@ -64,6 +66,13 @@ export default {
                 return []
             } else {
                 return this.activity['alert_list']
+            }
+        },
+        detect_by() {
+            if (!this.activity['detect_by']) {
+                return []
+            } else {
+                return this.activity['detect_by']
             }
         },
         graph() {
@@ -107,6 +116,7 @@ export default {
         'flow-graph': FlowGraph,
         'alert-detail-select': AlertDetailSelect,
         'raw-log-list': RawLogList,
+        'raw-krb-taffic-list': RawKrbTafficList,
         'recommendation': Recommendation,
         'mistake-confirm': MistakeConfirm,
         'ignore-confirm': IgnoreConfirm

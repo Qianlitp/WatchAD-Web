@@ -1,39 +1,32 @@
 <template>
 	<div class="ticket-content">
         <div>
-            <span>票据类型：</span>
-            <span class="ticket-value">{{form_data["ticket_type"]}}</span>
+            <span>KVNO：</span>
+            <span class="ticket-value">{{ticket_doc["KVNO"]}}</span>
         </div>
         <div>
-            <span>目标服务账户：</span>
-            <span class="ticket-value">{{form_data["service_name"]}}</span>
-        </div>
-        <div v-if="exceptional_domain_show">
-            <span>域名格式规范：</span>
-            <span class="ticket-value">
-            	<Icon v-if="!form_data['exceptional_domain_format']" type="ios-checkmark-circle-outline" size="20" color="#19be6b"/>
-            	<Icon v-else type="ios-close-circle-outline" size="20" color="#ef6a6a"/>
-            </span>
+            <span>TktVNO：</span>
+            <span class="ticket-value">{{ticket_doc["TktVNO"]}}</span>
         </div>
         <div>
             <span>加密类型：</span>
-            <span class="ticket-value">{{current_ticket_info["encryption_type"]}} ({{current_ticket_info["encryption_type_detail"]}})</span>
+            <span class="ticket-value">{{ticket_doc["encryption_type"]}} ({{ticket_doc["etype"]}})</span>
         </div>
         <div>
+            <span>Realm：</span>
+            <span class="ticket-value">{{ticket_doc["realm"]}}</span>
+        </div>
+        <div>
+            <span>票据Hash：</span>
+            <span class="ticket-value">{{ticket_doc["ticket_hash"]}}</span>
+        </div>
+<!--         <div>
             <span>票据选项：</span>
             <div class="ticket-value ticket-options">
-            	<span>{{current_ticket_info["options"]}}</span>
+            	<span>{{ticket_doc["options"]}}</span>
             	<Icon type="ios-help-circle-outline" size="20" style="margin-left: 5px;"/>
             </div>
-        </div>
-        <div v-if="tools_match">
-        	<span>已知工具匹配：</span>
-        	<span class="ticket-value"><span :class="tools_flag_class">{{tools_match}}</span></span>
-        </div>
-        <div>
-            <span>请求结果：</span>
-            <span class="ticket-value">{{current_ticket_info["status"]}}</span>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -41,7 +34,7 @@
 export default {
 	name: "ticket-detail",
     props: {
-        form_data: {
+        ticket_doc: {
             type: Object,
             required: true
         }
@@ -52,12 +45,9 @@ export default {
         }
     },
     computed: {
-        current_ticket_info() {
-            return this.form_data["ticket_info"];
-        },
         options_detail() {
         	let result = []
-        	for (let each of this.current_ticket_info["options_detail"]) {
+        	for (let each of this.ticket_doc["options_detail"]) {
         		result.push(each["name"])
         	}
         	return result.join("，");
@@ -108,7 +98,7 @@ export default {
 }
 
 .ticket-value {
-	width: 180px;
+	width: 300px;
 }
 
 .ticket-options {
