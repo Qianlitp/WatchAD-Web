@@ -6,7 +6,7 @@ COPY . /app/
 
 WORKDIR /app
 
-RUN npm install --registry=https://registry.npm.taobao.org --cache=$HOME/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist --userconfig=$HOME/.cnpmrc
+RUN npm install --registry=https://registry.npmmirror.com --cache=$HOME/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist --userconfig=$HOME/.cnpmrc
 
 RUN npm run build
 
