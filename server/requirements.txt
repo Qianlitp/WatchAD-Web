@@ -2,7 +2,7 @@ ldap3==2.5.1
 IPy==1.0
 dnspython==1.16.0
 simplejson==3.16.0
-redis==3.2.1
+redis==4.5.3
 pymongo==3.7.2
 elasticsearch5
 Flask==1.0.2
